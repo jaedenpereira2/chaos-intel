@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://chaos-intel.io/schemas/telemetry.schema.json",
+  "title": "TelemetryPoint",
+  "description": "Schema definition for telemetry observations and metrics series",
+  "type": "object",
+  "required": ["timestamp", "serviceId", "metricName", "value"],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "serviceId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "metricName": {
+      "type": "string",
+      "enum": ["CPU_UTILIZATION", "MEMORY_USAGE_MB", "P95_LATENCY_MS", "P99_LATENCY_MS", "ERROR_RATE_PERCENT", "REQUEST_THROUGHPUT_RPS"]
+    },
+    "value": {
+      "type": "number"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "experimentRunId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}
+

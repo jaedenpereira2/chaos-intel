@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://chaos-intel.io/schemas/experiment.schema.json",
+  "title": "Experiment",
+  "description": "Schema definition for a chaos experiment template or plan",
+  "type": "object",
+  "required": ["id", "applicationId", "name", "targetServiceId", "faultType", "parameters", "blastRadius", "rollbackStrategy"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "applicationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "targetServiceId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "faultType": {
+      "type": "string",
+      "enum": [
+        "NETWORK_LATENCY",
+        "PACKET_LOSS",
+        "POD_KILL",
+        "PROCESS_KILL",
+        "CPU_BURN",
+        "MEMORY_STRESS",
+        "DISK_IO_THROTTLE",
+        "DNS_FAILURE",
+        "HTTP_ERROR_INJECTION"
+      ]
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Fault-specific configuration (e.g. latencyMs, percentage, durationSec)",
+      "additionalProperties": true
+    },
+    "blastRadius": {
+      "type": "object",
+      "required": ["estimatedImpactLevel", "affectedServicesCount"],
+      "properties": {
+        "estimatedImpactLevel": {
+          "type": "string",
+          "enum": ["ISOLATED", "TIER_2_DOWNSTREAM", "SYSTEM_WIDE"]
+        },
+        "affectedServicesCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "affectedServiceIds": {
+          "type": "array",
+          "items": { "type": "string", "format": "uuid" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "rollbackStrategy": {
+      "type": "object",
+      "required": ["automatic", "timeoutSeconds", "action"],
+      "properties": {
+        "automatic": { "type": "boolean" },
+        "timeoutSeconds": { "type": "integer", "minimum": 1 },
+        "action": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "requiresApproval": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "additionalProperties": false
+}
+

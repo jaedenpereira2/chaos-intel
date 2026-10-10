@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://chaos-intel.io/schemas/recommendation.schema.json",
+  "title": "Recommendation",
+  "description": "Schema definition for an actionable architectural remediation",
+  "type": "object",
+  "required": ["id", "findingId", "title", "actionPlan", "estimatedEffort", "status", "createdAt"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "findingId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "actionPlan": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Numbered steps to remediate resilience gap"
+    },
+    "codeSnippet": {
+      "type": "string",
+      "description": "Suggested patch or code fix"
+    },
+    "estimatedEffort": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "ACCEPTED", "IN_PROGRESS", "RESOLVED", "REJECTED"]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}
+

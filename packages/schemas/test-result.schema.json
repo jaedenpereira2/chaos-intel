@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://chaos-intel.io/schemas/test-result.schema.json",
+  "title": "TestResult",
+  "description": "Schema definition for detailed test step execution results and evidence",
+  "type": "object",
+  "required": ["id", "testRunId", "stepName", "status", "durationMs"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "testRunId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "stepIndex": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "stepName": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASSED", "FAILED", "SKIPPED", "TIMED_OUT"]
+    },
+    "durationMs": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "errorMessage": {
+      "type": "string"
+    },
+    "stackTrace": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "url"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "type": { "type": "string", "enum": ["SCREENSHOT", "LOG", "METRIC", "TRACE", "VIDEO"] },
+          "title": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "metadata": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
+

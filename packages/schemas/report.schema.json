@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://chaos-intel.io/schemas/report.schema.json",
+  "title": "Report",
+  "description": "Schema definition for an executive and technical resilience audit report",
+  "type": "object",
+  "required": ["id", "applicationId", "title", "executiveSummary", "technicalFindings", "experimentHistory", "recommendations", "generatedAt"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "applicationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "title": {
+      "type": "string"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "executiveSummary": {
+      "type": "object",
+      "required": ["resilienceScore", "grade", "totalExperiments", "criticalFindingsCount", "overviewText"],
+      "properties": {
+        "resilienceScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "grade": { "type": "string", "enum": ["A+", "A", "B", "C", "D", "F"] },
+        "totalExperiments": { "type": "integer", "minimum": 0 },
+        "criticalFindingsCount": { "type": "integer", "minimum": 0 },
+        "overviewText": { "type": "string" },
+        "meanTimeToRecoverySec": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "technicalFindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["findingId", "title", "severity", "serviceName"],
+        "properties": {
+          "findingId": { "type": "string", "format": "uuid" },
+          "title": { "type": "string" },
+          "severity": { "type": "string", "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"] },
+          "serviceName": { "type": "string" },
+          "rootCauseSummary": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "experimentHistory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["experimentRunId", "targetService", "faultType", "outcomeStatus"],
+        "properties": {
+          "experimentRunId": { "type": "string", "format": "uuid" },
+          "targetService": { "type": "string" },
+          "faultType": { "type": "string" },
+          "outcomeStatus": { "type": "string" },
+          "passed": { "type": "boolean" },
+          "blastRadiusContained": { "type": "boolean" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["recommendationId", "title", "priority", "estimatedEffort"],
+        "properties": {
+          "recommendationId": { "type": "string", "format": "uuid" },
+          "findingId": { "type": "string", "format": "uuid" },
+          "title": { "type": "string" },
+          "priority": { "type": "string", "enum": ["P0", "P1", "P2", "P3"] },
+          "estimatedEffort": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
+

@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://chaos-intel.io/schemas/experiment-run.schema.json",
+  "title": "ExperimentRun",
+  "description": "Schema definition for an active or completed chaos experiment execution",
+  "type": "object",
+  "required": ["id", "experimentId", "applicationId", "status", "startedAt", "approvalStatus"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "experimentId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "applicationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PENDING_APPROVAL",
+        "APPROVED",
+        "REJECTED",
+        "INITIALIZING",
+        "FAULT_INJECTING",
+        "OBSERVING",
+        "ROLLING_BACK",
+        "COMPLETED",
+        "FAILED",
+        "ABORTED"
+      ]
+    },
+    "approvalStatus": {
+      "type": "object",
+      "required": ["isApproved"],
+      "properties": {
+        "isApproved": { "type": "boolean" },
+        "approvedBy": { "type": "string" },
+        "approvedAt": { "type": "string", "format": "date-time" },
+        "backendAuthorizationToken": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "targetService": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "name": { "type": "string" }
+      }
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["timestamp", "phase", "message"],
+        "properties": {
+          "timestamp": { "type": "string", "format": "date-time" },
+          "phase": { "type": "string" },
+          "message": { "type": "string" },
+          "details": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "properties": {
+        "resilienceVerified": { "type": "boolean" },
+        "unhandledFailureDetected": { "type": "boolean" },
+        "findingsGeneratedCount": { "type": "integer", "minimum": 0 },
+        "findingIds": {
+          "type": "array",
+          "items": { "type": "string", "format": "uuid" }
+        },
+        "summary": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "rollback": {
+      "type": "object",
+      "properties": {
+        "triggered": { "type": "boolean" },
+        "completed": { "type": "boolean" },
+        "triggerReason": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}
+

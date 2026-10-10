@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://chaos-intel.io/schemas/application.schema.json",
+  "title": "Application",
+  "description": "Schema definition for an application registered in CHAOS-INTEL",
+  "type": "object",
+  "required": ["id", "projectId", "name", "slug", "stack", "createdAt", "updatedAt"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique UUID for the application"
+    },
+    "projectId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID of the parent project"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Application display name"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "URL-safe application slug"
+    },
+    "description": {
+      "type": "string"
+    },
+    "repositoryUrl": {
+      "type": "string",
+      "format": "uri"
+    },
+    "stack": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Key tech stack technologies (e.g. Node.js, FastAPI, PostgreSQL, Redis)"
+    },
+    "resilienceScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Calculated system resilience index score (0-100)"
+    },
+    "riskLevel": {
+      "type": "string",
+      "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW", "UNKNOWN"]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp"
+    }
+  },
+  "additionalProperties": false
+}
+

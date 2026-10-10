@@ -1,0 +1,27 @@
+{
+  "name": "chaos-intel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CHAOS-INTEL: Intelligent Autonomous Software Resilience & Failure Discovery Platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm --workspace=apps/web run dev",
+    "build": "npm --workspace=apps/web run build",
+    "test": "npm --workspace=apps/web run test",
+    "lint": "npm --workspace=apps/web run lint",
+    "typecheck": "npm --workspace=apps/web run typecheck",
+    "codegen:schemas": "npm --workspace=apps/web run codegen:schemas"
+  },
+  "keywords": [
+    "chaos-engineering",
+    "resilience",
+    "observability",
+    "software-intelligence"
+  ],
+  "author": "CHAOS-INTEL Team",
+  "license": "MIT"
+}
+

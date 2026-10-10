@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://chaos-intel.io/schemas/test-run.schema.json",
+  "title": "TestRun",
+  "description": "Schema definition for an automated test run session (Playwright, k6, integration)",
+  "type": "object",
+  "required": ["id", "applicationId", "type", "status", "startedAt"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique UUID for the test run"
+    },
+    "applicationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["SMOKE", "INTEGRATION", "LOAD_K6", "E2E_PLAYWRIGHT", "RESILIENCE_VALIDATION"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "RUNNING", "PASSED", "FAILED", "ABORTED"]
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "durationMs": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "totalSteps": { "type": "integer", "minimum": 0 },
+        "passedSteps": { "type": "integer", "minimum": 0 },
+        "failedSteps": { "type": "integer", "minimum": 0 },
+        "skippedSteps": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "failedStepCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "environment": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}
+
